@@ -18,12 +18,12 @@ module.exports = (app) => {
     app.get(
         '/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/success',
+            successRedirect: '/api/current_user',
             failureRedirect: '/login'
         })
     );
 
-    app.get('/success', (req, res) => {
-        res.send({info: 'Success!'});
+    app.get('/api/current_user', (req, res) => {
+        res.send(req.user);
     });
 }

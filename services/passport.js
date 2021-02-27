@@ -5,6 +5,22 @@ const keys = require('../config/keys');
 
 const User = mongoose.model('users');
 
+// Setting user id as cookie in user's browser. It might store it in the cookie such as
+// '21421235(cookie_id)': 'user_id'
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+// Using the user id in the client browser, retrieve user object
+// Called on every request
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then(user => {
+            done(null, user);
+        }
+    );
+});
+
 /* Three Legged Oauth: Oauth 2.0
  * 1. App will ask client if it is okay they get access to certain information.
  * 2. Once user approves auth code is sent back 
@@ -24,7 +40,7 @@ passport.use(
             // the callback here is called by passport js.
             User.findOne({ googleId: profile.id }).then(existingUser => {
                 if (existingUser) {
-                    done(err, existingUser);
+                    done(null, existingUser);
                 } else {
                     new User({
                         googleId: profile.id
