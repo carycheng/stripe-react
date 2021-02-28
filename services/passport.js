@@ -10,7 +10,7 @@ const User = mongoose.model('users');
 // Express session stores the reference of the session in the cookie: session_id=54321. Stores data in a separate store than the cookie
 // There is a 14 kb size limit for cookie session, for express session the size is arbitrarily large.
 
-// Setting user id as cookie in user's browser.
+// Setting user id as cookie in user's browser. Using cookie-session, session data is stored in the client within a cookie
 // user_id: '12345'
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -18,6 +18,7 @@ passport.serializeUser((user, done) => {
 
 // Using the user id in the client browser, retrieve user object
 // Called on every request
+// cookie-session -> passport-session -> deserializeUser
 // Retrieves: user_id: '12345' -> 'passport': {user_id: '54321'} -> passes '54321' into deserializeUser
 passport.deserializeUser((id, done) => {
     User.findById(id)
@@ -38,7 +39,8 @@ passport.use(
         {
             clientID: keys.googleClientID,
             clientSecret: keys.googleClientSecret,
-            callbackURL: '/auth/google/callback'
+            callbackURL: '/auth/google/callback',
+            proxy: true
         }, 
         (accessToken, refreshToken, profile, done) => {
             // #4
