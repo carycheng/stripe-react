@@ -5,14 +5,20 @@ const keys = require('../config/keys');
 
 const User = mongoose.model('users');
 
-// Setting user id as cookie in user's browser. It might store it in the cookie such as
-// '21421235(cookie_id)': 'user_id'
+// Cookie Session vs Express Session.
+// Cookie session is the session: user_id=12345. Stores data directly in cookie
+// Express session stores the reference of the session in the cookie: session_id=54321. Stores data in a separate store than the cookie
+// There is a 14 kb size limit for cookie session, for express session the size is arbitrarily large.
+
+// Setting user id as cookie in user's browser.
+// user_id: '12345'
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
 // Using the user id in the client browser, retrieve user object
 // Called on every request
+// Retrieves: user_id: '12345' -> 'passport': {user_id: '54321'} -> passes '54321' into deserializeUser
 passport.deserializeUser((id, done) => {
     User.findById(id)
         .then(user => {
