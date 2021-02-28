@@ -18,6 +18,7 @@ module.exports = (app) => {
     app.get(
         '/auth/google/callback',
         passport.authenticate('google', {
+            scope: 'https://www.googleapis.com/auth/plus.login',
             successRedirect: '/api/current_user',
             failureRedirect: '/auth/google'
         })
