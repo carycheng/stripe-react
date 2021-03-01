@@ -15,6 +15,7 @@ module.exports = (app) => {
     // Because this route has the auth code, passport js knows to handle
     // this route a little bit differently compared to the first time we
     // call passport js authenticate().
+    // This also exchanges the auth code for a token
     app.get(
         '/auth/google/callback',
         passport.authenticate('google', {
