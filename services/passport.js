@@ -36,7 +36,7 @@ passport.deserializeUser((id, done) => {
  */
 passport.use(
     new GoogleStrategy(
-        // #2 This is to create the authorization URL
+        // #2 This is to create the authorization URL.
         {
             clientID: keys.googleClientID,
             clientSecret: keys.googleClientSecret,
@@ -51,7 +51,7 @@ passport.use(
             if (existingUser) {
                 return done(null, existingUser);
             } 
-            
+
             const createdUser = await new User({googleId: profile.id}).save();
             done(null, createdUser);
         }
