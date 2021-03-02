@@ -20,14 +20,14 @@ module.exports = (app) => {
         '/auth/google/callback',
         passport.authenticate('google', {
             scope: 'https://www.googleapis.com/auth/plus.login',
-            successRedirect: '/api/current_user',
+            successRedirect: '/surveys',
             failureRedirect: '/auth/google'
         })
     );
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
     });
 
     app.get('/api/current_user', (req, res) => {
