@@ -21,7 +21,7 @@ module.exports = (app) => {
         passport.authenticate('google', {
             scope: 'https://www.googleapis.com/auth/plus.login',
             successRedirect: '/surveys',
-            failureRedirect: '/auth/google'
+            failureRedirect: '/'
         })
     );
 
