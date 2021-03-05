@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    googleId: String
+    googleId: String,
+    credits: {
+        type: Number,
+        default: 0
+    }
 });
 
 // We can alternatively export this model class and require this like we

@@ -45,7 +45,7 @@ passport.use(
         }, 
         async (accessToken, refreshToken, profile, done) => {
             // #4
-            // Once the third tripe of the three legged oauth flow is completed
+            // Once the third trip of the three legged oauth flow is completed
             // the callback here is called by passport js.
             const existingUser = await User.findOne({ googleId: profile.id });
             if (existingUser) {
