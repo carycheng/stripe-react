@@ -46,4 +46,11 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
+// Connects React component to Redux store. Provides the connected component
+// with the pieces of the data it needs from the store and the functions
+// it can use to dispatch actions to the store
+
+// In this case inside the Redux state store we have an auth object. This
+// connect method connects the Header component to the auth object. It
+// should attach the auth state to the props attribute.
 export default connect(mapStateToProps)(Header);
