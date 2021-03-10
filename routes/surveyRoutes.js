@@ -8,6 +8,10 @@ const Survey = mongoose.model('surveys');
 
 module.exports = app => {
 
+    app.get('/api/surveys/thanks', (req, res) => {
+        res.send('Thanks for voting!');
+    });
+
     // You can pass in an arbitrary amount of functions into this route
     // (middlewares) until you get to a function that sends back a response.
     // This is how express terminates a request, when it sees a function that
