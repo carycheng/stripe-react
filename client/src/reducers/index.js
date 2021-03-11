@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as reduxForm } from 'redux-form';
 import authReducer from './authReducer';
 
 export default combineReducers({
@@ -7,5 +8,6 @@ export default combineReducers({
     // combine reducer which acts as a root reducer that contains all reducers.
     // We can then take this and pass this into our store and this will register
     // all our reducers with our state store.
-    auth: authReducer
+    auth: authReducer,
+    form: reduxForm
 });
