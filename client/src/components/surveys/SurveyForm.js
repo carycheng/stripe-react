@@ -1,6 +1,7 @@
 import Reeact, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 
+// Main survey form
 class SurveyForm extends Component {
     render() {
         return (
