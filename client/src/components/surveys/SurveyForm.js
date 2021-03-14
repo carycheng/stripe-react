@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import SurveyField from './SurveyField';
+import validateEmails from '../../utils/validateEmails';
 
 const Fields = [
     { label: 'Survey Title', name: 'title' },
@@ -21,7 +22,9 @@ class SurveyForm extends Component {
     render() {
         return (
             <div>
-                <form onSubmit={this.props.handleSubmit(values => console.log(values))}>
+                {/* On form submit call onSurveySubmit method to set the showFormReview state which will trigger it to set to true
+                    showing the Survey Form */}
+                <form onSubmit={this.props.handleSubmit(() => this.props.onSurveySubmit())}>
                     { this.renderFields() }
                     < Link to='/surveys' className="red btn-flat white-text">
                         Cancel
@@ -37,7 +40,6 @@ class SurveyForm extends Component {
 }
 
 function validate(values) {
-    console.log('Values', values);
     const errors = {}
     
     // name is a variable representing title, subject, etc... Dot notation
@@ -45,17 +47,18 @@ function validate(values) {
     // the variable name and determine the value. In this case the variable name
     // is name.
     _.each(Fields, ({name}) => {
-        console.log('ERROR');
-        console.log('Name', name);
         if (!values[name]) {
             errors[name] = 'You must provide a value'
         }
     });
+
+    errors.emails = validateEmails(values.emails || '');
 
     return errors;
 }
 
 export default reduxForm({
     validate: validate,
-    form: 'surveyForm'
+    form: 'surveyForm',
+    destroyOnUnmount: false
 })(SurveyForm);
