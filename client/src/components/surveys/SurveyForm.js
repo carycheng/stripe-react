@@ -4,18 +4,13 @@ import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import SurveyField from './SurveyField';
 import validateEmails from '../../utils/validateEmails';
+import formFields from './formFields';
 
-const Fields = [
-    { label: 'Survey Title', name: 'title' },
-    { label: 'Subject Line', name: 'subject' },
-    { label: 'Email Body', name: 'body' },
-    { label: 'Recipient List', name: 'emails'}
-];
 
 // Main survey form
 class SurveyForm extends Component {
     renderFields() {
-        return _.map(Fields, ({ label, name }) => {
+        return _.map(formFields, ({ label, name }) => {
             return < Field key={ name} component={SurveyField} type="text" label={ label } name={ name } />
         });
     }
@@ -46,13 +41,13 @@ function validate(values) {
     // can only reference static property names whereas brackets will evaluate
     // the variable name and determine the value. In this case the variable name
     // is name.
-    _.each(Fields, ({name}) => {
+    _.each(formFields, ({name}) => {
         if (!values[name]) {
             errors[name] = 'You must provide a value'
         }
     });
 
-    errors.emails = validateEmails(values.emails || '');
+    errors.recipients = validateEmails(values.recipients || '');
 
     return errors;
 }
