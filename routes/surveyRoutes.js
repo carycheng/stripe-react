@@ -8,6 +8,11 @@ const Survey = mongoose.model('surveys');
 
 module.exports = app => {
 
+    app.post('/api/surveys/webhooks', (req, res) => {
+        console.log('Request', req);
+        res.send('Hello');
+    });
+
     app.get('/api/surveys/thanks', (req, res) => {
         res.send('Thanks for voting!');
     });
