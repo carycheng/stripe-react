@@ -13,22 +13,24 @@ const Survey = mongoose.model('surveys');
 module.exports = app => {
 
     app.post('/api/surveys/webhooks', (req, res) => {
-        const events = _.map(req.body, ({ email, url }) => {
-            if (!url) {
-                res.status(400);
-            }
-            const pathname = new URL(url).pathname;
-            const p = new Path('/api/surveys/:surveyId/:choice');
-            const match = p.test(pathname);
-            if (match) {
-                return { email: email, surveyId: match.surveyId, surveyId: match.choice }
-            }
-        });
+        const p = new Path('/api/surveys/:surveyId/:choice');
+        
+        const events = _.chain(req.body)
+            .map(({ email, url }) => {
+                if (!url) {
+                    res.status(400);
+                }
 
-        const compactEvents = _.compect(events);
-        const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
+                const match = p.test(new URL(url).pathname);
+                if (match) {
+                    return { email: email, surveyId: match.surveyId, surveyId: match.choice }
+                }
+            })
+            .compect()
+            .uniqBy('email', 'surveyId')
+            .value();
 
-        console.log(uniqueEvents);
+        console.log(events);
         
         res.send({});
     });
